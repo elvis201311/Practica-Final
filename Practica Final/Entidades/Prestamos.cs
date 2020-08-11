@@ -15,12 +15,7 @@ namespace Practica_Final.Entidades
         public string Observacion { get; set; }
         public int CantidadJuegos { get; set; }
 
-        //———————————————————————————[ ForeingKeys ]———————————————————————————
         [ForeignKey("PrestamoId")]
-        public virtual List<PrestamoDetalle> Detalle { get; set; } = new List<PrestamoDetalle>();
-
-        [ForeignKey("AmigoId")]
-        public Amigos Amigos { get; set; }
-
+        public virtual List<PrestamoDetalle> PrestamosDetalles { get; set; } = new List<PrestamoDetalle>();
     }
 }

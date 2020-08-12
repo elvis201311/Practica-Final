@@ -9,14 +9,14 @@ using System.Text;
 
 namespace Practica_Final.BLL
 {
-    public class AmigosBLL
+    public class EntradasBLL
     {
-        public static bool Guardar(Amigos amigo)
+        public static bool Guardar(Entradas entrada)
         {
-            if (!Existe(amigo.AmigoId))
-                return Insertar(amigo);
+            if (!Existe(entrada.EntrdaId))
+                return Insertar(entrada);
             else
-                return Modificar(amigo);
+                return Modificar(entrada);
         }
 
         public static bool Existe(int id)
@@ -26,7 +26,7 @@ namespace Practica_Final.BLL
 
             try
             {
-                ok = contexto.Amigos.Any(a => a.AmigoId == id);
+                ok = contexto.Entradas.Any(e => e.EntrdaId == id);
             }
             catch (Exception)
             {
@@ -41,14 +41,14 @@ namespace Practica_Final.BLL
             return ok;
         }
 
-        private static bool Insertar(Amigos amigo)
+        private static bool Insertar(Entradas entrada)
         {
             Contexto contexto = new Contexto();
             bool ok = false;
 
             try
             {
-                contexto.Amigos.Add(amigo);
+                contexto.Entradas.Add(entrada);
                 ok = contexto.SaveChanges() > 0;
             }
             catch (Exception)
@@ -64,14 +64,14 @@ namespace Practica_Final.BLL
             return ok;
         }
 
-        private static bool Modificar(Amigos amigo)
+        private static bool Modificar(Entradas entrada)
         {
             Contexto contexto = new Contexto();
             bool ok = false;
 
             try
             {
-                contexto.Entry(amigo).State = EntityState.Modified;
+                contexto.Entry(entrada).State = EntityState.Modified;
                 ok = contexto.SaveChanges() > 0;
             }
             catch (Exception)
@@ -87,14 +87,14 @@ namespace Practica_Final.BLL
             return ok;
         }
 
-        public static Amigos Buscar(int id)
+        public static Entradas Buscar(int id)
         {
             Contexto contexto = new Contexto();
-            Amigos amigo;
+            Entradas entrada;
 
             try
             {
-                amigo = contexto.Amigos.Find(id);
+                entrada = contexto.Entradas.Find(id);
             }
             catch (Exception)
             {
@@ -106,7 +106,7 @@ namespace Practica_Final.BLL
                 contexto.Dispose();
             }
 
-            return amigo;
+            return entrada;
         }
 
         public static bool Eliminar(int id)
@@ -116,10 +116,10 @@ namespace Practica_Final.BLL
 
             try
             {
-                var eliminar = contexto.Amigos.Find(id);
+                var eliminar = contexto.Entradas.Find(id);
                 if (eliminar != null)
                 {
-                    contexto.Amigos.Remove(eliminar);
+                    contexto.Entradas.Remove(eliminar);
                     ok = contexto.SaveChanges() > 0;
                 }
             }
@@ -136,14 +136,14 @@ namespace Practica_Final.BLL
             return ok;
         }
 
-        public static List<Amigos> GetAmigos()
+        public static List<Entradas> GetAmigos()
         {
             Contexto contexto = new Contexto();
-            List<Amigos> lista = new List<Amigos>();
+            List<Entradas> lista = new List<Entradas>();
 
             try
             {
-                lista = contexto.Amigos.ToList();
+                lista = contexto.Entradas.ToList();
             }
             catch (Exception)
             {
@@ -158,14 +158,14 @@ namespace Practica_Final.BLL
             return lista;
         }
 
-        public static List<Amigos> GetAmigos(Expression<Func<Amigos, bool>> criterio)
+        public static List<Entradas> GetAmigos(Expression<Func<Entradas, bool>> criterio)
         {
             Contexto contexto = new Contexto();
-            List<Amigos> lista = new List<Amigos>();
+            List<Entradas> lista = new List<Entradas>();
 
             try
             {
-                lista = contexto.Amigos.Where(criterio).ToList();
+                lista = contexto.Entradas.Where(criterio).ToList();
             }
             catch (Exception)
             {

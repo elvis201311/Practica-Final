@@ -11,12 +11,10 @@ namespace Practica_Final.Entidades
         public int AmigoId { get; set; }
         public string Nombres { get; set; }
         public string Direccion { get; set; }
-        public int Telefono { get; set; }
-        public int Celular { get; set; }
-        public string EMail { get; set; }
+        public string Telefono { get; set; }
+        public string Celular { get; set; }
+        public string Email { get; set; }
         public DateTime FechaNacimiento { get; set; } = DateTime.Now;
-
-    
     }
 }
 

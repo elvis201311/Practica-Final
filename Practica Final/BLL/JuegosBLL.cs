@@ -11,18 +11,26 @@ namespace Practica_Final.BLL
 {
     public class JuegosBLL
     {
-        //Metodo Existe.
+        public static bool Guardar(Juegos juego)
+        {
+            if (!Existe(juego.JuegoId))
+                return Insertar(juego);
+            else
+                return Modificar(juego);
+        }
+
         public static bool Existe(int id)
         {
             Contexto contexto = new Contexto();
-            bool encontrado = false;
+            bool ok = false;
 
             try
             {
-                encontrado = contexto.Juegos.Any(e => e.JuegoId == id);
+                ok = contexto.Juegos.Any(j => j.JuegoId == id);
             }
             catch (Exception)
             {
+
                 throw;
             }
             finally
@@ -30,133 +38,146 @@ namespace Practica_Final.BLL
                 contexto.Dispose();
             }
 
-            return encontrado;
+            return ok;
         }
 
-        //Metodo Insertar.
-        private static bool Insertar(Juegos juegos)
+        private static bool Insertar(Juegos juego)
         {
-            bool paso = false;
             Contexto contexto = new Contexto();
+            bool ok = false;
 
             try
             {
-                //Agregar la entidad que se desea insertar al contexto
-                contexto.Juegos.Add(juegos);
-                paso = contexto.SaveChanges() > 0;
+                contexto.Juegos.Add(juego);
+                ok = contexto.SaveChanges() > 0;
             }
             catch (Exception)
             {
+
                 throw;
             }
             finally
             {
                 contexto.Dispose();
             }
-            return paso;
+
+            return ok;
         }
 
-        //Metodo Guardar.
-        public static bool Guardar(Juegos juegos)
+        private static bool Modificar(Juegos juego)
         {
-            if (!Existe(juegos.JuegoId))
-                return Insertar(juegos);
-            else
-                return Modificar(juegos);
+            Contexto contexto = new Contexto();
+            bool ok = false;
+
+            try
+            {
+                contexto.Entry(juego).State = EntityState.Modified;
+                ok = contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                contexto.Dispose();
+            }
+
+            return ok;
         }
 
-        //Metodo Buscar.
         public static Juegos Buscar(int id)
         {
-            Juegos juegos = new Juegos();
             Contexto contexto = new Contexto();
+            Juegos juego;
 
             try
             {
-                juegos = contexto.Juegos.Find(id);
+                juego = contexto.Juegos.Find(id);
             }
             catch (Exception)
             {
+
                 throw;
             }
             finally
             {
                 contexto.Dispose();
             }
-            return juegos;
+
+            return juego;
         }
 
-        //Metodo Modificar.
-        private static bool Modificar(Juegos juegos)
-        {
-            bool paso = false;
-            Contexto contexto = new Contexto();
-
-            try
-            {
-                //marcar la entidad como modificada para que el contexto sepa como proceder
-                contexto.Entry(juegos).State = EntityState.Modified;
-                paso = contexto.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
-            return paso;
-        }
-
-        //Metodo Eliminar.
         public static bool Eliminar(int id)
         {
-            bool paso = false;
             Contexto contexto = new Contexto();
+            bool ok = false;
 
             try
             {
-                //buscar la entidad que se desea eliminar
-                var juegos = JuegosBLL.Buscar(id);
-
-                if (juegos != null)
+                var eliminar = contexto.Juegos.Find(id);
+                if (eliminar != null)
                 {
-                    contexto.Juegos.Remove(juegos); //remover la entidad
-                    paso = contexto.SaveChanges() > 0;
+                    contexto.Juegos.Remove(eliminar);
+                    ok = contexto.SaveChanges() > 0;
                 }
             }
             catch (Exception)
             {
+
                 throw;
             }
             finally
             {
                 contexto.Dispose();
             }
-            return paso;
+
+            return ok;
         }
 
-        //Metodo GetList.
-        public static List<Juegos> GetList(Expression<Func<Juegos, bool>> criterio)
+        public static List<Juegos> GetAmigos()
         {
-            List<Juegos> Lista = new List<Juegos>();
             Contexto contexto = new Contexto();
+            List<Juegos> lista = new List<Juegos>();
 
             try
             {
-                //obtener la lista y filtrarla según el criterio recibido por parametro.
-                Lista = contexto.Juegos.Where(criterio).ToList();
+                lista = contexto.Juegos.ToList();
             }
             catch (Exception)
             {
+
                 throw;
             }
             finally
             {
                 contexto.Dispose();
             }
-            return Lista;
+
+            return lista;
+        }
+
+        public static List<Juegos> GetAmigos(Expression<Func<Juegos, bool>> criterio)
+        {
+            Contexto contexto = new Contexto();
+            List<Juegos> lista = new List<Juegos>();
+
+            try
+            {
+                lista = contexto.Juegos.Where(criterio).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                contexto.Dispose();
+            }
+
+            return lista;
         }
     }
 }

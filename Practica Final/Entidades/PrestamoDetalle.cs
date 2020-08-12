@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Practica_Final.Entidades
@@ -14,12 +15,7 @@ namespace Practica_Final.Entidades
         public int JuegoId { get; set; }
         public int Cantidad { get; set; }
 
-        public PrestamoDetalle(int PrestamoId, int JuegoId, int cantidad)
-        {
-            Id = 0;
-            PrestamoId = PrestamoId;
-            JuegoId = JuegoId;
-            Cantidad = cantidad;
-        }
+        [ForeignKey("JuegoId")]
+        public virtual Juegos Juego { get; set; }
     }
 }

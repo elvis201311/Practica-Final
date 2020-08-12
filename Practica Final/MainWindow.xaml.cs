@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Practica_Final.UI.Registros.Registro_Amigos;
 
 namespace Practica_Final
 {
@@ -23,6 +24,11 @@ namespace Practica_Final
         public MainWindow()
         {
             InitializeComponent();
+        }
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            rAmigos rAmigos = new rAmigos();
+            rAmigos.Show();
         }
     }
 }

@@ -13,40 +13,38 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Practica_Final.UI.Registros.Registro_Juegos
+namespace Practica_Final.UI.Registros.Registro_Entrada
 {
     /// <summary>
-    /// Interaction logic for rJuegos.xaml
+    /// Interaction logic for rEntradas.xaml
     /// </summary>
-    public partial class rJuegos : Window
+    public partial class rEntradas : Window
     {
-     
-        private Juegos Juego = new Juegos();
-        public rJuegos()
+        private Entradas Entrada = new Entradas();
+        public rEntradas()
         {
             InitializeComponent();
-            this.DataContext = Juego;
+            this.DataContext = Entrada;
         }
-
         //Busca un registro.
         private void BuscarButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!Regex.IsMatch(JuegoIdTextBox.Text, "^[1-9]+$"))
+            if (!Regex.IsMatch(EntradaIdTextBox.Text, "^[1-9]+$"))
             {
                 MessageBox.Show("Asegúrese de haber ingresado un Id de caracter numerico y que sea mayor a 0.",
                     "Id no valido", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            var encontrado = JuegosBLL.Buscar(int.Parse(JuegoIdTextBox.Text));
+            var encontrado = EntradasBLL.Buscar(int.Parse(EntradaIdTextBox.Text));
             if (encontrado != null)
             {
-                Juego = encontrado;
-                this.DataContext = Juego;
+                Entrada = encontrado;
+                this.DataContext = Entrada;
             }
             else
             {
-                MessageBox.Show("Ese juego no existe en la base de datos.", "No se encontro.", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Esa entrada no existe en la base de datos.", "No se encontro.", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -62,7 +60,7 @@ namespace Practica_Final.UI.Registros.Registro_Juegos
             if (!Validar())
                 return;
 
-            if (JuegosBLL.Guardar(Juego))
+            if (EntradasBLL.Guardar(Entrada))
             {
                 Limpiar();
                 MessageBox.Show("Guardado.", "Exito.", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -76,14 +74,14 @@ namespace Practica_Final.UI.Registros.Registro_Juegos
         //Elimina un registro de la base de datos.
         private void EliminarButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!Regex.IsMatch(JuegoIdTextBox.Text, "^[1-9]+$"))
+            if (!Regex.IsMatch(EntradaIdTextBox.Text, "^[1-9]+$"))
             {
                 MessageBox.Show("Asegúrese de haber ingresado un Id de caracter numerico y que sea mayor a 0.",
                     "Id no valido", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            if (JuegosBLL.Eliminar(int.Parse(JuegoIdTextBox.Text)))
+            if (EntradasBLL.Eliminar(int.Parse(EntradaIdTextBox.Text)))
             {
                 Limpiar();
                 MessageBox.Show("Eliminado.", "Exito.", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -97,15 +95,14 @@ namespace Practica_Final.UI.Registros.Registro_Juegos
         //Limpia los campos del registro.
         public void Limpiar()
         {
-            Juego = new Juegos();
-            this.DataContext = Juego;
+            Entrada = new Entradas();
+            this.DataContext = Entrada;
         }
 
         //Valida los campos del registro.
         public bool Validar()
         {
-            //Valida el Id
-            if (!Regex.IsMatch(JuegoIdTextBox.Text, "^[1-9]+$"))
+            if (!Regex.IsMatch(EntradaIdTextBox.Text, "^[1-9]+$"))
             {
                 MessageBox.Show("Asegúrese de haber ingresado un Id de caracter numerico y que sea mayor a 0.",
                     "Id no valido", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -113,31 +110,25 @@ namespace Practica_Final.UI.Registros.Registro_Juegos
             }
 
             //válida que no hayan campos vacíos.
-            if (DescripcionTextBox.Text.Length == 0 || PrecioTextBox.Text.Length == 0)
+            if (JuegoIdTextBox.Text.Length == 0 || CantidadTextBox.Text.Length == 0)
             {
                 MessageBox.Show("Asegúrese de haber llenado todos los campos.", "Campos vacíos",
                     MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 
-            //válida que haya un dato válido en el precio.
-            if (!Regex.IsMatch(PrecioTextBox.Text, @"^[0-9]{1,8}$|^[0-9]{1,8}\.[0-9]{1,8}$"))
+            if (!Regex.IsMatch(JuegoIdTextBox.Text, "^[1-9]+$"))
             {
-                MessageBox.Show("Solo puede introducir carácteres numéricos.", "Campo Precio.",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Asegúrese de haber ingresado un Id de caracter numerico y que sea mayor a 0.",
+                    "Id no valido", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 
-            //Valida que no se creen varios registro del mismo juego
-            var juego = JuegosBLL.ExisteJuego(DescripcionTextBox.Text);
-            if (juego != null)
+            if (!JuegosBLL.Existe(int.Parse(JuegoIdTextBox.Text)))
             {
-                if ((DescripcionTextBox.Text == juego.Descripcion) && (int.Parse(JuegoIdTextBox.Text) != juego.JuegoId))
-                {
-                    MessageBox.Show($"Este juego ya existe con el Id: {juego.JuegoId}.", "Existente en el inventario.",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return false;
-                }
+                MessageBox.Show("Este juego no se encontro en la base de datos. Recuerde crear el juego antes de darle una entrada.",
+                    "No existe.", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
             }
 
             return true;

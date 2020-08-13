@@ -13,10 +13,16 @@ namespace Practica_Final.BLL
     {
         public static bool Guardar(Entradas entrada)
         {
-            if (!Existe(entrada.EntrdaId))
+            if (!Existe(entrada.EntradaId))
+            {
+                IncrementaInventario(entrada);
                 return Insertar(entrada);
+            }
             else
+            {
+                ModificaInventario(entrada);
                 return Modificar(entrada);
+            }
         }
 
         public static bool Existe(int id)
@@ -26,7 +32,7 @@ namespace Practica_Final.BLL
 
             try
             {
-                ok = contexto.Entradas.Any(e => e.EntrdaId == id);
+                ok = contexto.Entradas.Any(e => e.EntradaId == id);
             }
             catch (Exception)
             {
@@ -178,6 +184,23 @@ namespace Practica_Final.BLL
             }
 
             return lista;
+        }
+
+        public static void IncrementaInventario(Entradas entrada)
+        {
+            Juegos juego = JuegosBLL.Buscar(entrada.JuegoId);
+            juego.Existencia += entrada.Cantidad;
+            JuegosBLL.Guardar(juego);
+        }
+
+        public static void ModificaInventario(Entradas NuevaEntrada)
+        {
+            Entradas entrada = Buscar(NuevaEntrada.EntradaId);
+            Juegos juego = JuegosBLL.Buscar(NuevaEntrada.JuegoId);
+
+            juego.Existencia -= entrada.Cantidad;
+            juego.Existencia += NuevaEntrada.Cantidad;
+            JuegosBLL.Guardar(juego);
         }
     }
 }

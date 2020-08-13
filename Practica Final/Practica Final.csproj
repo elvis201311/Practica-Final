@@ -9,6 +9,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Agendar.png" />
+    <None Remove="Resources\Buscar.png" />
+    <None Remove="Resources\Eliminar.png" />
+    <None Remove="Resources\Guardar.png" />
+    <None Remove="Resources\Mas.png" />
+    <None Remove="Resources\Nuevo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Agendar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Buscar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Eliminar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Guardar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Mas.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Nuevo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SQLite" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
       <PrivateAssets>all</PrivateAssets>
@@ -18,7 +48,9 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="UI\Consultas\" />
+    <Folder Include="UI\Consultas\Consulta Juegos\" />
+    <Folder Include="UI\Consultas\Consulta Amigoa\" />
+    <Folder Include="UI\Consultas\Prestamos\" />
   </ItemGroup>
 
   <ItemGroup>

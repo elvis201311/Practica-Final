@@ -26,6 +26,7 @@ namespace Practica_Final.UI.Registros.Registro_Entrada
             InitializeComponent();
             this.DataContext = Entrada;
         }
+
         //Busca un registro.
         private void BuscarButton_Click(object sender, RoutedEventArgs e)
         {

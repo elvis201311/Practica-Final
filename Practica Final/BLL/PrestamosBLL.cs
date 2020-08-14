@@ -9,21 +9,28 @@ using System.Text;
 
 namespace Practica_Final.BLL
 {
-    public class PrestamosBLL
+   public class PrestamosBLL
     {
+        public static bool Guardar(Prestamos prestamo)
+        {
+            if (!Existe(prestamo.PrestamoId))
+                return Insertar(prestamo);
+            else
+                return Modificar(prestamo);
+        }
 
-        //Metodo Existe.
         public static bool Existe(int id)
         {
             Contexto contexto = new Contexto();
-            bool encontrado = false;
+            bool ok = false;
 
             try
             {
-                encontrado = contexto.Prestamos.Any(e => e.PrestamoId == id);
+                ok = contexto.Prestamos.Any(p => p.PrestamoId == id);
             }
             catch (Exception)
             {
+
                 throw;
             }
             finally
@@ -31,134 +38,135 @@ namespace Practica_Final.BLL
                 contexto.Dispose();
             }
 
-            return encontrado;
+            return ok;
         }
 
-        //Metodo Insertar.
-        private static bool Insertar(Prestamos prestamos)
+        private static bool Insertar(Prestamos prestamo)
         {
-            bool paso = false;
             Contexto contexto = new Contexto();
+            bool ok = false;
 
             try
             {
-                //Agregar la entidad que se desea insertar al contexto
-                contexto.Prestamos.Add(prestamos);
-                paso = contexto.SaveChanges() > 0;
+                foreach (var item in prestamo.PrestamosDetalles)
+                {
+                    item.Juego.Existencia -= item.Cantidad;
+                    contexto.Entry(item.Juego).State = EntityState.Modified;
+                }
+                contexto.Prestamos.Add(prestamo);
+                ok = contexto.SaveChanges() > 0;
             }
             catch (Exception)
             {
+
                 throw;
             }
             finally
             {
                 contexto.Dispose();
             }
-            return paso;
+
+            return ok;
         }
 
-        //Metodo Guardar.
-        public static bool Guardar(Prestamos prestamos)
+        private static bool Modificar(Prestamos prestamo)
         {
-            if (!Existe(prestamos.PrestamoId))
-                return Insertar(prestamos);
-            else
-                return Modificar(prestamos);
+            Contexto contexto = new Contexto();
+            bool ok = false;
+            try
+            {
+                contexto.Database.ExecuteSqlRaw($"Delete FROM PrestamosDetalle Where PrestamoId={prestamo.PrestamoId}");
+                foreach (var item in prestamo.PrestamosDetalles)
+                {
+                    contexto.Entry(item).State = EntityState.Added;
+                }
+                contexto.Entry(prestamo).State = EntityState.Modified;
+                ok = contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                contexto.Dispose();
+            }
+
+            return ok;
         }
 
-        //Metodo Buscar.
         public static Prestamos Buscar(int id)
         {
-            Prestamos prestamos = new Prestamos();
             Contexto contexto = new Contexto();
+            Prestamos prestamo;
 
             try
             {
-                prestamos = contexto.Prestamos.Find(id);
+                prestamo = contexto.Prestamos.Where(p => p.PrestamoId == id).Include(p => p.PrestamosDetalles)
+                    .ThenInclude(d => d.Juego).SingleOrDefault();
             }
             catch (Exception)
             {
+
                 throw;
             }
             finally
             {
                 contexto.Dispose();
             }
-            return prestamos;
+
+            return prestamo;
         }
 
-        //Metodo Modificar.
-        private static bool Modificar(Prestamos prestamos)
-        {
-            bool paso = false;
-            Contexto contexto = new Contexto();
-
-            try
-            {
-                //marcar la entidad como modificada para que el contexto sepa como proceder
-                contexto.Entry(prestamos).State = EntityState.Modified;
-                paso = contexto.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
-            return paso;
-        }
-
-        //Metodo Eliminar.
         public static bool Eliminar(int id)
         {
-            bool paso = false;
             Contexto contexto = new Contexto();
+            bool ok = false;
 
             try
             {
-                //buscar la entidad que se desea eliminar
-                var prestamos = PrestamosBLL.Buscar(id);
-
-                if (prestamos != null)
+                var eliminar = contexto.Prestamos.Find(id);
+                if (eliminar != null)
                 {
-                    contexto.Prestamos.Remove(prestamos); //remover la entidad
-                    paso = contexto.SaveChanges() > 0;
+                    contexto.Entry(eliminar).State = EntityState.Deleted;
+                    ok = contexto.SaveChanges() > 0;
                 }
+
             }
             catch (Exception)
             {
+
                 throw;
             }
             finally
             {
                 contexto.Dispose();
             }
-            return paso;
+
+            return ok;
         }
 
-        //Metodo GetList.
-        public static List<Prestamos> GetList(Expression<Func<Prestamos, bool>> criterio)
+        public static List<Prestamos> GetPrestamos(Expression<Func<Prestamos, bool>> criterio)
         {
-            List<Prestamos> Lista = new List<Prestamos>();
             Contexto contexto = new Contexto();
+            List<Prestamos> lista = new List<Prestamos>();
 
             try
             {
-                //obtener la lista y filtrarla según el criterio recibido por parametro.
-                Lista = contexto.Prestamos.Where(criterio).ToList();
+                lista = contexto.Prestamos.Where(criterio).ToList();
             }
             catch (Exception)
             {
+
                 throw;
             }
             finally
             {
                 contexto.Dispose();
             }
-            return Lista;
-        }
 
+            return lista;
+        }
     }
 }

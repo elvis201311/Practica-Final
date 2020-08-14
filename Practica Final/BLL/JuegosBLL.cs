@@ -136,7 +136,7 @@ namespace Practica_Final.BLL
             return ok;
         }
 
-        public static List<Juegos> GetAmigos()
+        public static List<Juegos> GetJuegos()
         {
             Contexto contexto = new Contexto();
             List<Juegos> lista = new List<Juegos>();
@@ -158,7 +158,7 @@ namespace Practica_Final.BLL
             return lista;
         }
 
-        public static List<Juegos> GetAmigos(Expression<Func<Juegos, bool>> criterio)
+        public static List<Juegos> GetJuegos(Expression<Func<Juegos, bool>> criterio)
         {
             Contexto contexto = new Contexto();
             List<Juegos> lista = new List<Juegos>();
@@ -203,6 +203,12 @@ namespace Practica_Final.BLL
             }
 
             return juego;
+        }
+
+        public static int Existencia(int id)
+        {
+            Juegos juego = Buscar(id);
+            return juego.Existencia;
         }
     }
 }

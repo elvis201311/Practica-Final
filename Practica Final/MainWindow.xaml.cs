@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Practica_Final.UI.Registros.Registro_Amigos;
 using Practica_Final.UI.Registros.Registro_Entrada;
 using Practica_Final.UI.Registros.Registro_Juegos;
+using Practica_Final.UI.Registros.Registro_Prestamos;
 
 namespace Practica_Final
 {
@@ -41,6 +42,11 @@ namespace Practica_Final
         {
             rEntradas rEntradas = new rEntradas();
             rEntradas.Show();
+        }
+        private void MenuItem_Click4(object sender, RoutedEventArgs e)
+        {
+            rPrestamos rPrestamos = new rPrestamos();
+            rPrestamos.Show();
         }
     }
 }

@@ -41,7 +41,7 @@
 
             <!--Existencia-->
             <Label Content="Existencia" FontSize="11"/>
-            <TextBox Name="ExistenciaTextBox" Height="20" Text="{Binding Existencia}" Width="300" HorizontalAlignment="Left" Margin="5,0"/>
+            <TextBox Name="ExistenciaTextBox" Height="20" Text="{Binding Existencia}" Width="300" HorizontalAlignment="Left" Margin="5,0" IsReadOnly="True"/>
 
             <!--Email-->
 

@@ -9,7 +9,7 @@ using Practica_Final.DAL;
 namespace Practica_Final.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200815000848_Migracio_Inicial")]
+    [Migration("20200815021728_Migracio_Inicial")]
     partial class Migracio_Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,31 +92,7 @@ namespace Practica_Final.Migrations
                     b.ToTable("Juegos");
                 });
 
-            modelBuilder.Entity("Practica_Final.Entidades.PrestamoDetalle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Cantidad")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("JuegoId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PrestamoId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JuegoId");
-
-                    b.HasIndex("PrestamoId");
-
-                    b.ToTable("PrestamoDetalle");
-                });
-
-            modelBuilder.Entity("Practica_Final.Entidades.Prestamos", b =>
+            modelBuilder.Entity("Practica_Final.Entidades.Prestamo", b =>
                 {
                     b.Property<int>("PrestamoId")
                         .ValueGeneratedOnAdd()
@@ -141,11 +117,44 @@ namespace Practica_Final.Migrations
                     b.ToTable("Prestamos");
                 });
 
+            modelBuilder.Entity("Practica_Final.Entidades.PrestamoDetalle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("JuegoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PrestamoId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JuegoId");
+
+                    b.HasIndex("PrestamoId");
+
+                    b.ToTable("PrestamoDetalle");
+                });
+
             modelBuilder.Entity("Practica_Final.Entidades.Entradas", b =>
                 {
                     b.HasOne("Practica_Final.Entidades.Juegos", "Juego")
                         .WithMany()
                         .HasForeignKey("JuegoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Practica_Final.Entidades.Prestamo", b =>
+                {
+                    b.HasOne("Practica_Final.Entidades.Amigos", "Amigo")
+                        .WithMany()
+                        .HasForeignKey("AmigoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -158,18 +167,9 @@ namespace Practica_Final.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Practica_Final.Entidades.Prestamos", null)
+                    b.HasOne("Practica_Final.Entidades.Prestamo", null)
                         .WithMany("PrestamosDetalles")
                         .HasForeignKey("PrestamoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Practica_Final.Entidades.Prestamos", b =>
-                {
-                    b.HasOne("Practica_Final.Entidades.Amigos", "Amigo")
-                        .WithMany()
-                        .HasForeignKey("AmigoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

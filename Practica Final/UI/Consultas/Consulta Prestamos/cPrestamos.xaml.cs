@@ -30,7 +30,7 @@ namespace Practica_Final.UI.Consultas.Prestamos
         private void Buscar_Click(object sender, RoutedEventArgs e)
         {
 
-            var lista = new List<Prestamos>();
+            var lista = new List<Prestamo>();
 
             if (CriterioTexBox.Text.Trim().Length > 0)
             {

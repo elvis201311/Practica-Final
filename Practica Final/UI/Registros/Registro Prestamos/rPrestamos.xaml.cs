@@ -20,7 +20,7 @@ namespace Practica_Final.UI.Registros.Registro_Prestamos
     /// </summary>
     public partial class rPrestamos : Window
     {
-        private Prestamos Prestamo = new Prestamos();
+        private Prestamo Prestamo = new Prestamo();
         private int previousLineCount = 0;//Variable que ayudara con el salto de linea.
         public rPrestamos()
         {
@@ -154,7 +154,7 @@ namespace Practica_Final.UI.Registros.Registro_Prestamos
         //Limpia el registro
         public void Limpiar()
         {
-            Prestamo = new Prestamos();
+            Prestamo = new Prestamo();
             this.DataContext = Prestamo;
         }
 

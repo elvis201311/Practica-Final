@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Practica_Final.Entidades
 {
-    public class Prestamos
+    public class Prestamo
     {
         [Key]
         public int PrestamoId { get; set; }
@@ -21,5 +21,7 @@ namespace Practica_Final.Entidades
         [ForeignKey("PrestamoId")]
         public virtual List<PrestamoDetalle> PrestamosDetalles { get; set; } = new List<PrestamoDetalle>();
 
+      
     }
+
 }

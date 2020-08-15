@@ -9,9 +9,9 @@ using System.Text;
 
 namespace Practica_Final.BLL
 {
-   class PrestamosBLL
+   public class PrestamosBLL
     {
-        public static bool Guardar(Prestamos prestamo)
+        public static bool Guardar(Prestamo prestamo)
         {
             if (!Existe(prestamo.PrestamoId))
                 return Insertar(prestamo);
@@ -41,7 +41,7 @@ namespace Practica_Final.BLL
             return ok;
         }
 
-        private static bool Insertar(Prestamos prestamo)
+        private static bool Insertar(Prestamo prestamo)
         {
             Contexto contexto = new Contexto();
             bool ok = false;
@@ -69,7 +69,7 @@ namespace Practica_Final.BLL
             return ok;
         }
 
-        private static bool Modificar(Prestamos prestamo)
+        private static bool Modificar(Prestamo prestamo)
         {
             Contexto contexto = new Contexto();
             bool ok = false;
@@ -96,10 +96,10 @@ namespace Practica_Final.BLL
             return ok;
         }
 
-        public static Prestamos Buscar(int id)
+        public static Prestamo Buscar(int id)
         {
             Contexto contexto = new Contexto();
-            Prestamos prestamo;
+            Prestamo prestamo;
 
             try
             {
@@ -147,10 +147,10 @@ namespace Practica_Final.BLL
             return ok;
         }
 
-        public static List<Prestamos> GetPrestamos(Expression<Func<Prestamos, bool>> criterio)
+        public static List<Prestamo> GetPrestamos(Expression<Func<Prestamo, bool>> criterio)
         {
             Contexto contexto = new Contexto();
-            List<Prestamos> lista = new List<Prestamos>();
+            List<Prestamo> lista = new List<Prestamo>();
 
             try
             {

@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practica_Final.UI.Registros.Registro_Entrada"
         mc:Ignorable="d"
-        Title="Entrada Juego" Height="280" Width="320" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" >
+        Title="Entrada Juego" Height="280" Width="320" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Grid>
         <StackPanel Orientation="Vertical" Margin="10,10,10,10">
-            
+            <!--Entrada Id-->
             <Label Content="Entrada Id" FontSize="11"/>
-            
+            <!--Entra Id TextBox y Boton Buscar-->
             <StackPanel Orientation="Horizontal">
-               
+                <!--TextBox-->
                 <TextBox Name="EntradaIdTextBox" Height="20" Width="200" Text="{Binding EntradaId}" HorizontalAlignment="Left" Margin="5,0"/>
 
+                <!--Button-->
                 <Button Name="BuscarButton" Width="60" Height="20" Margin="5,0" Click="BuscarButton_Click">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/Buscar.png" />
@@ -23,17 +24,19 @@
                 </Button>
             </StackPanel>
 
+            <!--Fecha-->
             <Label Content="Fecha" FontSize="11"/>
             <DatePicker Name="FechaDatePicker" Height="20" SelectedDate="{Binding Fecha}" Padding="-1" Width="270" HorizontalAlignment="Left" Margin="5,0"/>
 
-            <Label Content="Juego Id" FontSize="11"/>
-            <TextBox Name="JuegoIdTextBox" Height="20" Width="270" Text="{Binding JuegoId}" HorizontalAlignment="Left" Margin="5,0"/>
+            <!--Juego Id-->
+            <Label Content="Juego" FontSize="11"/>
+            <ComboBox Name="JuegoComboBox" Height="20" Width="270" SelectedValue = "{Binding JuegoId}" HorizontalAlignment="Left" Margin="5,0"/>
 
-
+            <!--Cantidad-->
             <Label Content="Cantidad" FontSize="11"/>
             <TextBox Name="CantidadTextBox" Height="20" Width="270" Text="{Binding Cantidad}" HorizontalAlignment="Left" Margin="5,0"/>
 
-
+            <!--Barra de botones-->
             <StackPanel Orientation="Horizontal" Width="210" HorizontalAlignment="Center" Margin="0,15,0,0">
                 <Button Name="NuevoButton" Width="60" Height="20" Click="NuevoButton_Click">
                     <StackPanel Orientation="Horizontal">

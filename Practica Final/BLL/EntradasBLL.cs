@@ -15,13 +15,14 @@ namespace Practica_Final.BLL
         {
             if (!Existe(entrada.EntradaId))
             {
-                IncrementaInventario(entrada);
+
                 return Insertar(entrada);
             }
             else
             {
-                ModificaInventario(entrada);
+
                 return Modificar(entrada);
+
             }
         }
 
@@ -54,6 +55,8 @@ namespace Practica_Final.BLL
 
             try
             {
+                entrada.Juego.Existencia += entrada.Cantidad;
+                contexto.Entry(entrada.Juego).State = EntityState.Modified;
                 contexto.Entradas.Add(entrada);
                 ok = contexto.SaveChanges() > 0;
             }
@@ -74,9 +77,13 @@ namespace Practica_Final.BLL
         {
             Contexto contexto = new Contexto();
             bool ok = false;
+            var aux = Buscar(entrada.EntradaId);
 
             try
             {
+                entrada.Juego.Existencia -= aux.Cantidad;
+                entrada.Juego.Existencia += entrada.Cantidad;
+                contexto.Entry(entrada.Juego).State = EntityState.Modified;
                 contexto.Entry(entrada).State = EntityState.Modified;
                 ok = contexto.SaveChanges() > 0;
             }
@@ -142,7 +149,7 @@ namespace Practica_Final.BLL
             return ok;
         }
 
-        public static List<Entradas> GetAmigos()
+        public static List<Entradas> GetEntradas()
         {
             Contexto contexto = new Contexto();
             List<Entradas> lista = new List<Entradas>();
@@ -164,7 +171,7 @@ namespace Practica_Final.BLL
             return lista;
         }
 
-        public static List<Entradas> GetAmigos(Expression<Func<Entradas, bool>> criterio)
+        public static List<Entradas> GetEntradas(Expression<Func<Entradas, bool>> criterio)
         {
             Contexto contexto = new Contexto();
             List<Entradas> lista = new List<Entradas>();
@@ -186,21 +193,6 @@ namespace Practica_Final.BLL
             return lista;
         }
 
-        public static void IncrementaInventario(Entradas entrada)
-        {
-            Juegos juego = JuegosBLL.Buscar(entrada.JuegoId);
-            juego.Existencia += entrada.Cantidad;
-            JuegosBLL.Guardar(juego);
-        }
 
-        public static void ModificaInventario(Entradas NuevaEntrada)
-        {
-            Entradas entrada = Buscar(NuevaEntrada.EntradaId);
-            Juegos juego = JuegosBLL.Buscar(NuevaEntrada.JuegoId);
-
-            juego.Existencia -= entrada.Cantidad;
-            juego.Existencia += NuevaEntrada.Cantidad;
-            JuegosBLL.Guardar(juego);
-        }
     }
 }

@@ -48,9 +48,6 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="UI\Consultas\Consulta Juegos\" />
-    <Folder Include="UI\Consultas\Consulta Amigoa\" />
-    <Folder Include="UI\Consultas\Prestamos\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,6 +63,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\PrestamosDeJuegos.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

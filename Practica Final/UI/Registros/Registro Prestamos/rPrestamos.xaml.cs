@@ -21,8 +21,7 @@ namespace Practica_Final.UI.Registros.Registro_Prestamos
     public partial class rPrestamos : Window
     {
         private Prestamos Prestamo = new Prestamos();
-        private int previousLineCount = 0;
-        
+        private int previousLineCount = 0;//Variable que ayudara con el salto de linea.
         public rPrestamos()
         {
             InitializeComponent();
@@ -36,6 +35,7 @@ namespace Practica_Final.UI.Registros.Registro_Prestamos
             JuegoComboBox.SelectedValuePath = "JuegoId";
             JuegoComboBox.DisplayMemberPath = "Descripcion";
         }
+
         //Busca un registro.
         private void BuscarButton_Click(object sender, RoutedEventArgs e)
         {

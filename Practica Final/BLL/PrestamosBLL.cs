@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Practica_Final.BLL
 {
-   public class PrestamosBLL
+   class PrestamosBLL
     {
         public static bool Guardar(Prestamos prestamo)
         {
@@ -127,7 +127,7 @@ namespace Practica_Final.BLL
             try
             {
                 var eliminar = contexto.Prestamos.Find(id);
-                if (eliminar != null)
+                if(eliminar != null)
                 {
                     contexto.Entry(eliminar).State = EntityState.Deleted;
                     ok = contexto.SaveChanges() > 0;

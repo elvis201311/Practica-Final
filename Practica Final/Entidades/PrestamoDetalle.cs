@@ -8,12 +8,12 @@ namespace Practica_Final.Entidades
 {
    public class PrestamoDetalle
     {
-       
+
         [Key]
         public int Id { get; set; }
         public int PrestamoId { get; set; }
-        public int JuegoId { get; set; }
         public int Cantidad { get; set; }
+        public int JuegoId { get; set; }
 
         [ForeignKey("JuegoId")]
         public virtual Juegos Juego { get; set; }

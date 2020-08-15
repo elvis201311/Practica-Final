@@ -16,6 +16,10 @@ using Practica_Final.UI.Registros.Registro_Amigos;
 using Practica_Final.UI.Registros.Registro_Entrada;
 using Practica_Final.UI.Registros.Registro_Juegos;
 using Practica_Final.UI.Registros.Registro_Prestamos;
+using Practica_Final.UI.Consultas.Consulta_Amigoa;
+using Practica_Final.UI.Consultas;
+using Practica_Final.UI.Consultas.Consulta_Juegos;
+using Practica_Final.UI.Consultas.Prestamos;
 
 namespace Practica_Final
 {
@@ -47,6 +51,27 @@ namespace Practica_Final
         {
             rPrestamos rPrestamos = new rPrestamos();
             rPrestamos.Show();
+        }
+        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        {
+            cAmigo cAmigo = new cAmigo();
+            cAmigo.Show();
+        }
+        private void MenuItem_Click_6(object sender, RoutedEventArgs e)
+        {
+            cEntrada cEntrada = new cEntrada();
+            cEntrada.Show();
+        }
+        private void MenuItem_Click_7(object sender, RoutedEventArgs e)
+        {
+            cJuegos cJuegos = new cJuegos();
+            cJuegos.Show();
+        }
+
+        private void MenuItem_Click_8(object sender, RoutedEventArgs e)
+        {
+            cPrestamos cPrestamos = new cPrestamos();
+            cPrestamos.Show();
         }
     }
 }

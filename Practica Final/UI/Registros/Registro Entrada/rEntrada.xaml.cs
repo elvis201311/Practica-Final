@@ -25,6 +25,11 @@ namespace Practica_Final.UI.Registros.Registro_Entrada
         {
             InitializeComponent();
             this.DataContext = Entrada;
+            //ComboBox Juego
+            JuegoComboBox.ItemsSource = JuegosBLL.GetJuegos();
+            JuegoComboBox.SelectedValuePath = "JuegoId";
+            JuegoComboBox.DisplayMemberPath = "Descripcion";
+
         }
 
         //Busca un registro.
@@ -60,6 +65,8 @@ namespace Practica_Final.UI.Registros.Registro_Entrada
         {
             if (!Validar())
                 return;
+
+            Entrada.Juego = (Juegos)JuegoComboBox.SelectedItem;
 
             if (EntradasBLL.Guardar(Entrada))
             {
@@ -111,25 +118,46 @@ namespace Practica_Final.UI.Registros.Registro_Entrada
             }
 
             //válida que no hayan campos vacíos.
-            if (JuegoIdTextBox.Text.Length == 0 || CantidadTextBox.Text.Length == 0)
+            if (JuegoComboBox.SelectedIndex == -1 || CantidadTextBox.Text.Length == 0)
             {
                 MessageBox.Show("Asegúrese de haber llenado todos los campos.", "Campos vacíos",
                     MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 
-            if (!Regex.IsMatch(JuegoIdTextBox.Text, "^[1-9]+$"))
-            {
-                MessageBox.Show("Asegúrese de haber ingresado un Id de caracter numerico y que sea mayor a 0.",
-                    "Id no valido", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
+            //if (!Regex.IsMatch(JuegoIdTextBox.Text, "^[1-9]+$"))
+            //{
+            //    MessageBox.Show("Asegúrese de haber ingresado un Id de caracter numerico y que sea mayor a 0.",
+            //        "Id no valido", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    return false;
+            //}
 
-            if (!JuegosBLL.Existe(int.Parse(JuegoIdTextBox.Text)))
+            if (!JuegosBLL.Existe(int.Parse(JuegoComboBox.SelectedValue.ToString())))
             {
                 MessageBox.Show("Este juego no se encontro en la base de datos. Recuerde crear el juego antes de darle una entrada.",
                     "No existe.", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
+            }
+
+            //Valida que se introduzaca una cantidad valida.
+            if (!Regex.IsMatch(CantidadTextBox.Text, "^[1-9]+${1,9}"))
+            {
+                MessageBox.Show("Asegúrese de haber ingresado cantidad valida.",
+                    "Cantidad no valido", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            //Valida que el inventario no quede en negativo por una modificacion de una entrada.
+            var juego = JuegosBLL.Buscar(int.Parse(JuegoComboBox.SelectedValue.ToString()));
+            if (juego.Existencia != 0)
+            {
+                if ((juego.Existencia - int.Parse(CantidadTextBox.Text)) < 0)
+                {
+                    MessageBox.Show("No puedes realizar este cambio porque al parecer prestaste una cantidad mayor de la que ahora quieres " +
+                        "ingresar.",
+                        "Ha ocurrido un conflicto.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
             }
 
             return true;
